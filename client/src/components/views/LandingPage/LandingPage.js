@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { API_URL, API_KEY, BASE_IMAGE_URL } from '../../../config/Config';
-import MainImage from './Sections/MainImage';
+import MainImage from '../commons/MainImage';
 import GridCards from '../commons/GridCards';
 import { Row } from 'antd';
 
