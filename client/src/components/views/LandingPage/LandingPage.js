@@ -8,18 +8,30 @@ function LandingPage() {
 
     const [Movies, setMovies] = useState([]);
     const [MainMovieImage, setMainMovieImage] = useState(null);
+    const [CurrentPage, setCurrentpage] = useState(0);
 
     useEffect(() => {
         const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=ko&page=1`;
+        fetchMovies(endpoint);
+        // eslint-disable-next-line react-hooks/exhaustive-deps 
+    }, []);
 
+    const fetchMovies = (endpoint) => {
         fetch(endpoint)
             .then(response => response.json())
             .then(data => {
-                console.log(data.results);
-                setMovies(data.results);
-                setMainMovieImage(data.results[0]);
+                console.log(endpoint);
+                console.log(data);
+                setMovies([...Movies, ...data.results]);
+                if(data.page === 1) setMainMovieImage(data.results[0]);
+                setCurrentpage(data.page);
             });
-    }, []);
+    };
+
+    const loadMoreItems = () => {
+        const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=ko&page=${CurrentPage + 1}`;
+        fetchMovies(endpoint);
+    };
 
     return (
         <div style={{ width: '100%', margin: '0' }}>
@@ -51,7 +63,7 @@ function LandingPage() {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <button>Load More</button>
+                <button onClick={loadMoreItems}>Load More</button>
             </div>
         </div>
     )
