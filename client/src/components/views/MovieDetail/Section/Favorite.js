@@ -17,12 +17,11 @@ function Favorite(props) {
       userFrom,
       movieId
     };
-    console.log(variables);
+    // console.log(variables);
     axios.post('/api/favorite/favoriteNumber', variables)
       .then(response => {
         if(response.data.success) {
           setFavoriteNumber(response.data.favoriteNumber);
-          console.log('hi');
         } else {
           alert("'좋아요' 숫자를 가져오는데 실패했습니다.");
         }

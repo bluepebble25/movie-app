@@ -109,6 +109,7 @@ function LoginPage(props) {
                   placeholder="Enter your password"
                   type="password"
                   value={values.password}
+                  autoComplete="on"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={

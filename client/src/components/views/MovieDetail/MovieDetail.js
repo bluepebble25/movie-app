@@ -8,7 +8,7 @@ import { Row } from 'antd';
 
 function MovieDetail(props) {
   let movieId = props.match.params.movieId;
-  const [Movie, setMovie] = useState([]);
+  const [Movie, setMovie] = useState("");
   const [Casts, setCasts] = useState([]);
   const [ActorToggle, setActorToggle] = useState(false);
 
@@ -19,14 +19,12 @@ function MovieDetail(props) {
     fetch(endpointInfo)
       .then(response => response.json())
       .then(data => {
-        console.log('movie', data);
         setMovie(data);
       });
 
     fetch(endpointCrews)
     .then(response => response.json())
     .then(data => {
-      console.log('crew', data);
       setCasts(data.cast);
     });
   }, [movieId]);
@@ -38,11 +36,12 @@ function MovieDetail(props) {
   return (
     <div>
       {/* Header */}
-      <MainImage
+      { Movie &&
+        <MainImage
         image={`${BASE_IMAGE_URL}w1280${Movie.backdrop_path}`}
         title={`${Movie.title}`}
         text={`${Movie.overview}`}
-      />
+      />}
 
       {/* Body */}
       <div style={{ width: '85%', margin: '1rem auto' }}>

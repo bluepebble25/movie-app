@@ -20,8 +20,8 @@ function LandingPage() {
         fetch(endpoint)
             .then(response => response.json())
             .then(data => {
-                console.log(endpoint);
-                console.log(data);
+                // console.log(endpoint);
+                // console.log(data);
                 setMovies([...Movies, ...data.results]);
                 if(data.page === 1) setMainMovieImage(data.results[0]);
                 setCurrentpage(data.page);
