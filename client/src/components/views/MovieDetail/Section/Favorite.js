@@ -6,7 +6,7 @@ function Favorite(props) {
 
   const movieId = props.movieId;
   const userFrom = props.userFrom;
-  const movieTitle = props.movieInfo.movieTitle;
+  const movieTitle = props.movieInfo.title;
   const moviePoster = props.movieInfo.backdrop_path;
   const movieRunTime = props.movieInfo.runtime;
 
@@ -22,7 +22,6 @@ function Favorite(props) {
   };
 
   useEffect(() => {
-    // console.log(variables);
     axios.post('/api/favorite/favoriteNumber', variables)
       .then(response => {
         if(response.data.success) {
@@ -40,7 +39,7 @@ function Favorite(props) {
         alert("'좋아요' 여부를 가져오는데 실패했습니다.");
       }
     });
-  }, []);
+  }, [props, variables]);
   
   const onClickFavorite = () => {
     if(Favorited) {
