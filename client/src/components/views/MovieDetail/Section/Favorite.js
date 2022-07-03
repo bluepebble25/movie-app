@@ -39,7 +39,7 @@ function Favorite(props) {
         alert("'좋아요' 여부를 가져오는데 실패했습니다.");
       }
     });
-  }, [props, variables]);
+  }, []);
   
   const onClickFavorite = () => {
     if(Favorited) {
