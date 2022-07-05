@@ -45,7 +45,7 @@ router.post('/login', (req, res) => {
 
 router.get('/auth', auth, (req, res) => {
   res.status(200).json({
-    _id: req.user_id,
+    _id: req.user._id,
     isAdmin: req.user.role === 0 ? false: true, //0이면 일반, 아니면 관리자
     isAuth: true,
     email: req.user.email,

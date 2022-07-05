@@ -4,6 +4,7 @@ import MainImage from '../commons/MainImage';
 import MovieInfo from './Section/MovieInfo';
 import GridCards from '../commons/GridCards';
 import Favorite from './Section/Favorite';
+import Comments from './Section/Comments';
 import { Row } from 'antd';
 
 function MovieDetail(props) {
@@ -74,7 +75,9 @@ function MovieDetail(props) {
           ))}
         </Row>
         }
-        
+
+        {/* Comments */}
+        <Comments movieId={movieId} />
       </div>
     </div>
   )
