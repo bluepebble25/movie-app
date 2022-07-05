@@ -6,12 +6,18 @@ import GridCards from '../commons/GridCards';
 import Favorite from './Section/Favorite';
 import Comments from './Section/Comments';
 import { Row } from 'antd';
+import axios from 'axios';
 
 function MovieDetail(props) {
   let movieId = props.match.params.movieId;
   const [Movie, setMovie] = useState("");
   const [Casts, setCasts] = useState([]);
   const [ActorToggle, setActorToggle] = useState(false);
+  const [CommentLists, setCommentLists] = useState([]);
+
+  const movieVariable = {
+    movieId: movieId
+  };
 
   useEffect(() => {
     const endpointInfo = `${API_URL}movie/${movieId}?api_key=${API_KEY}&language=ko`;
@@ -28,11 +34,25 @@ function MovieDetail(props) {
     .then(data => {
       setCasts(data.cast);
     });
+
+    axios.post('/api/comment/getComments', movieVariable)
+      .then(response => {
+        if(response.data.success) {
+          setCommentLists(response.data.comments);
+          console.log(response.data.comments);
+        } else {
+          alert('댓글 정보를 가져오는데 실패했습니다.');
+        }
+      });
   }, [movieId]);
 
   const toggleActorView = () => {
     setActorToggle(!ActorToggle);
   }
+
+  const refreshComments = (newComment) => {
+    setCommentLists(CommentLists.concat(newComment));
+  };
 
   return (
     <div>
@@ -77,7 +97,7 @@ function MovieDetail(props) {
         }
 
         {/* Comments */}
-        <Comments movieId={movieId} />
+        <Comments refreshComments={refreshComments} movieId={movieId} commentLists={CommentLists} />
       </div>
     </div>
   )

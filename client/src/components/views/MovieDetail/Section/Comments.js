@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import SingleComment from './SingleComment';
+import { Button, Input } from 'antd';
+
+const { TextArea } = Input;
 
 function Comments(props) {
   const user = useSelector(state => state.user);
@@ -24,6 +28,7 @@ function Comments(props) {
       .then(response => {
         if(response.data.success) {
           setCommentValue("");
+          props.refreshComments(response.data.result);
         } else {
           alert('댓글을 저장하지 못했습니다.');
         }
@@ -33,22 +38,28 @@ function Comments(props) {
   return (
     <div>
       <br />
-      <p>Replies</p>
       <hr />
-
-      {/* Comment Lists */}
+      <p>Replies</p>
 
       {/* Root Comment Form */}
       <form style={{ display: 'flex' }} onSubmit={onSubmit} >
-        <textarea
+        <TextArea
             style={{ width: '100%', borderRadius: '5px' }}
             onChange={onChangeHandler}
             value={CommentValue}
             placeholder="댓글을 남겨주세요"
         />
         <br />
-        <button style={{ width: '20%', height: '52px' }} onClick={onSubmit} >Submit</button>
+        <Button style={{ width: '20%', height: '52px' }} onClick={onSubmit} >Submit</Button>
       </form>
+      <br />
+      {/* Comment Lists */}
+      {props.commentLists && props.commentLists.map((comment, index) => (
+        (!comment.responseTo && 
+          <SingleComment key={index} refreshComments={props.refreshComments} comment={comment} movieId={movieId} />
+        )
+        
+      ))}
     </div>
   )
 }
