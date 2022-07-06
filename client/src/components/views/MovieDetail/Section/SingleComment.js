@@ -25,7 +25,7 @@ function SingleComment(props) {
     const variables = {
       content: CommentValue,
       writer: user.userData._id,
-      movieId: props.movieId,
+      movieId: props.comment.movieId,
       responseTo: props.comment._id // 답글을 달 댓글의 원 주인의 _id
     };
 
@@ -33,6 +33,7 @@ function SingleComment(props) {
       .then(response => {
         if(response.data.success) {
           setCommentValue("");
+          setOpenReply(false);
           props.refreshComments(response.data.result);
         } else {
           alert('댓글을 저장하지 못했습니다.');

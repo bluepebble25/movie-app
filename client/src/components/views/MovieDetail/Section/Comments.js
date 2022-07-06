@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import SingleComment from './SingleComment';
 import { Button, Input } from 'antd';
+import SingleComment from './SingleComment';
+import ReplyComment from './ReplyComment';
+
 
 const { TextArea } = Input;
 
@@ -56,7 +58,10 @@ function Comments(props) {
       {/* Comment Lists */}
       {props.commentLists && props.commentLists.map((comment, index) => (
         (!comment.responseTo && 
-          <SingleComment key={index} refreshComments={props.refreshComments} comment={comment} movieId={movieId} />
+          <>
+          <SingleComment refreshComments={props.refreshComments} comment={comment} movieId={movieId} />
+          <ReplyComment commentLists={props.commentLists} refreshComments={props.refreshComments} parentCommentId={comment._id} />
+          </>
         )
         
       ))}
