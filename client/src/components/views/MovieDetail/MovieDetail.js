@@ -5,6 +5,7 @@ import MovieInfo from './Section/MovieInfo';
 import GridCards from '../commons/GridCards';
 import Favorite from './Section/Favorite';
 import Comments from './Section/Comments';
+import LikeDislikes from './Section/LikeDislikes';
 import { Row } from 'antd';
 import axios from 'axios';
 
@@ -95,6 +96,11 @@ function MovieDetail(props) {
           ))}
         </Row>
         }
+
+        <br />
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <LikeDislikes movieId={movieId} userId={localStorage.getItem('userId')} />
+        </div>
 
         {/* Comments */}
         <Comments refreshComments={refreshComments} movieId={movieId} commentLists={CommentLists} />

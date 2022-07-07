@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const users = require('./router/users');
 const favorite = require('./router/favorite');
 const comment = require('./router/comment');
+const like = require('./router/like');
 
 // config
 require('dotenv').config({ path: './config/.env'});
@@ -27,6 +28,7 @@ mongoose.connect(MONGO_URI)
 app.use('/api/users', users);
 app.use('/api/favorite', favorite);
 app.use('/api/comment', comment);
+app.use('/api/like', like);
 
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);
