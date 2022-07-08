@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { Tooltip, Icon } from 'antd'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
+import { Tooltip, Icon } from 'antd';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 function LikeDislikes(props) {
+  const user = useSelector(state => state.user);
 
   const [Likes, setLikes] = useState(0);
   const [Dislikes, setDislikes] = useState(0);
@@ -52,6 +54,10 @@ function LikeDislikes(props) {
   
   const onLike = () => {
 
+    if(user.userData && !user.userData.isAuth) {
+      return alert('로그인을 해주세요');
+    }
+
     if(LikeAction === null) {
       axios.post('/api/like/upLike', variable)
         .then(response => {
@@ -84,6 +90,10 @@ function LikeDislikes(props) {
   };
 
   const onDislike = () => {
+    
+    if(user.userData && !user.userData.isAuth) {
+      return alert('로그인을 해주세요');
+    }
     
     if(DislikeAction === null) {
       axios.post('/api/like/upDislike', variable)

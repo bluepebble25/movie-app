@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Button } from 'antd';
+import { useSelector } from 'react-redux';
 
 function Favorite(props) {
+  const user = useSelector(state => state.user)
 
   const movieId = props.movieId;
   const userFrom = props.userFrom;
@@ -42,6 +44,10 @@ function Favorite(props) {
   }, []);
   
   const onClickFavorite = () => {
+    if(user.userData && !user.userData.isAuth) {
+      return alert('로그인을 해주세요');
+    }
+
     if(Favorited) {
       axios.post('/api/favorite/removeFromFavorite', variables)
         .then(response => {

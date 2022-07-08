@@ -23,6 +23,10 @@ function SingleComment(props) {
   const onSubmit = (event) => {
     event.preventDefault();
 
+    if(user.userData && !user.userData.isAuth) {
+      return alert('로그인을 해주세요');
+    }
+
     const variables = {
       content: CommentValue,
       writer: user.userData._id,
