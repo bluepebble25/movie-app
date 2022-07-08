@@ -7,7 +7,7 @@ function LikeDislikes(props) {
   const [Likes, setLikes] = useState(0);
   const [Dislikes, setDislikes] = useState(0);
   const [LikeAction, setLikeAction] = useState(null);
-  const [DisLikeAction, setDisLikeAction] = useState(null);
+  const [DislikeAction, setDislikeAction] = useState(null);
 
   let variable = {};
 
@@ -40,11 +40,11 @@ function LikeDislikes(props) {
 
           response.data.dislikes.map(like => {
             if(like.userId === props.userId) {
-              setDisLikeAction(true);
+              setDislikeAction(true);
             }
           })
         } else {
-          alert('DisLikes 정보를 가져오는데 실패했습니다.')
+          alert('Dislikes 정보를 가져오는데 실패했습니다.')
         }
       });
 
@@ -59,9 +59,9 @@ function LikeDislikes(props) {
             setLikes(Likes + 1);
             setLikeAction(true);
 
-            // like가 null이어도 disLike가 이미 눌려있어서 그럴 수도 있기 때문에 disLike 여부도 확인한다.
-            if(DisLikeAction !== null) {
-              setDisLikeAction(null);
+            // like가 null이어도 dislike가 이미 눌려있어서 그럴 수도 있기 때문에 dislike 여부도 확인한다.
+            if(DislikeAction !== null) {
+              setDislikeAction(null);
               setDislikes(Dislikes - 1);
             }
 
@@ -70,19 +70,29 @@ function LikeDislikes(props) {
           }
         });
 
+    } else {
+      axios.post('/api/like/unLike', variable)
+        .then(response => {
+          if(response.data.success) {
+            setLikes(Likes - 1);
+            setLikeAction(null);
+          } else {
+            alert('Like를 취소하는데 실패했습니다.');
+          }
+        });
     }
   };
 
-  const onDisLike = () => {
+  const onDislike = () => {
     
-    if(DisLikeAction === null) {
-      axios.post('/api/like/upDisLike', variable)
+    if(DislikeAction === null) {
+      axios.post('/api/like/upDislike', variable)
         .then(response => {
           if(response.data.success) {
             setDislikes(Dislikes + 1);
-            setDisLikeAction(true);
+            setDislikeAction(true);
 
-            // like가 null이어도 disLike가 이미 눌려있어서 그럴 수도 있기 때문에 disLike 여부도 확인한다.
+            // dislike가 null이어도 like가 이미 눌려있어서 그럴 수도 있기 때문에 like 여부도 확인한다.
             if(LikeAction !== null) {
               setLikeAction(null);
               setLikes(Likes - 1);
@@ -92,7 +102,18 @@ function LikeDislikes(props) {
             alert('Dislike를 올리는데 실패했습니다.');
           }
         });
-    };
+
+    } else {
+      axios.post('/api/like/unDislike', variable)
+        .then(response => {
+          if(response.data.success) {
+            setDislikes(Dislikes - 1);
+            setDislikeAction(null);
+          } else {
+            alert('Like를 취소하는데 실패했습니다.');
+          }
+        });
+    }
   }
 
   return (
@@ -110,8 +131,8 @@ function LikeDislikes(props) {
       <span key="comment-basic-dislike" >
         <Tooltip title="Dislike">
           <Icon type="dislike"
-                theme={DisLikeAction ? 'filled' : 'outlined'}
-                onClick={onDisLike}
+                theme={DislikeAction ? 'filled' : 'outlined'}
+                onClick={onDislike}
           />
         </Tooltip>
       </span>

@@ -61,7 +61,7 @@ router.post('/upLike', (req, res) => {
 
 });
 
-router.post('/upDisLike', (req, res) => {
+router.post('/upDislike', (req, res) => {
   let variable = {};
 
   if(req.body.movieId) {
@@ -80,6 +80,42 @@ router.post('/upDisLike', (req, res) => {
         res.status(200).json({ success: true });
       });
   })
+
+});
+
+router.post('/unLike', (req, res) => {
+
+  let variable = {};
+
+  if(req.body.movieId) {
+    variable = { movieId: req.body.movieId, userId: req.body.userId }
+  } else {
+    variable = { commentId: req.body.commentId, userId: req.body.userId }
+  }
+
+  Like.findOneAndDelete(variable)
+      .exec((err, result) => {
+        if(err) return res.status(400).json({ success: false, err });
+        res.status(200).json({ success: true });
+      });
+
+});
+
+router.post('/unDislike', (req, res) => {
+
+  let variable = {};
+
+  if(req.body.movieId) {
+    variable = { movieId: req.body.movieId, userId: req.body.userId }
+  } else {
+    variable = { commentId: req.body.commentId, userId: req.body.userId }
+  }
+
+  Dislike.findOneAndDelete(variable)
+      .exec((err, result) => {
+        if(err) return res.status(400).json({ success: false, err });
+        res.status(200).json({ success: true });
+      });
 
 });
 
